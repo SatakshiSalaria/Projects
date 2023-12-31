@@ -1,38 +1,44 @@
---SQL Query
---Query to get user-level dataset:
-SELECT u.id AS "User ID",
-      u.country AS "Country",
-      u.gender AS "Gender", 
-      g.device AS "Device Type", 
-      g.group AS "Test Group",
-      CASE
-      WHEN SUM (a.spent) > 0 THEN 1
-      ELSE 0 END AS "Converted",
-      COALESCE (SUM (a. spent), 0) AS "Total Spent"
-FROM users u 
-LEFT JOIN
-      activity a ON u.id = a.uid 
-LEFT JOIN
-      groups g ON u.id = g.uid 
-GROUP BY u.id,
-      u.country, 
-      u.gender, 
-      g.device, 
-      g.group;
+Project Logistics
 
---Query for Novelty Effect:
+The project features three stages, each being one sprint: 
+1. Extract the user-level aggregated dataset using SQL.
+2. Analyze the A/B test results using statistical methods in spreadsheets and visualizations in Tableau.
+3. Create a written report of the A/B test results and optionally record a video presentation.
 
-SELECT a.dt AS date,
-    (SUM(CASE WHEN g.group = 'B' THEN a.spent ELSE 0 END) / COUNT(DISTINCT CASE WHEN g.group = 'B' THEN u.id END)) AS treatment_conversion_rate, 
-    (SUM(CASE WHEN g.group = 'A' THEN a.spent ELSE 0 END) / COUNT(DISTINCT CASE WHEN g.group = 'A' THEN u.id END)) AS control_conversion_rate,
-    (SUM(CASE WHEN g.group = 'B' THEN a.spent ELSE 0 END) / COUNT(DISTINCT CASE WHEN g.group = 'B' THEN u.id END))
-    - (SUM(CASE WHEN g.group = 'A' THEN a.spent ELSE 0 END) / COUNT(DISTINCT CASE
-WHEN g.group = 'A' THEN u.id END)) AS conversion_rate_difference 
-FROM users AS u
-JOIN activity AS a
-    ON u.id = a.uid 
-JOIN groups AS g
-    ON u.id = g.uid GROUP BY a.dt
-ORDER BY conversion_rate_difference;
+Project Background
+
+Motivation
+An A/B test is an experimentation technique used by businesses to compare two versions of a webpage, advertisement, or product feature to determine which one performs better. By randomly assigning customers or users to either the A or B version, the business can determine which version is more effective at achieving a particular goal.
+You are a Data Analyst for an e-commerce company called GloBox. GloBox is an online marketplace that specializes in sourcing unique and high-quality products from around the world.
+We believe that shopping should be an adventure, and we want to bring the world to your doorstep. From exotic spices and rare teas to handmade jewelry and textiles, we have a curated selection of products that you won't find anywhere else.
+GloBox is primarily known amongst its customer base for boutique fashion items and high-end decor products. However, their food and drink offerings have grown tremendously in the last few months, and the company wants to bring awareness to this product category to increase revenue.
+
+A/B Test Setup
+The Growth team decides to run an A/B test that highlights key products in the food and drink category as a banner at the top of the website. The control group does not see the banner, and the test group sees it.
+
+The setup of the A/B test is as follows:
+1. The experiment is only being run on the mobile website.
+2. A user visits the GloBox main page and is randomly assigned to either the control or test group. This is the join date for the user.
+3. The page loads the banner if the user is assigned to the test group, and does not load the banner if the user is assigned to the control group.
+4. The user subsequently may or may not purchase products from the website. It could be on the same day they join the experiment, or days later. If they do make one or more purchases, this is considered a “conversion”.
+
+You can find a description of each table and its columns below.
+
+users: user demographic information
+id: the user ID
+country: ISO 3166 alpha-3 country code
+gender: the user's gender (M = male, F = female, O = other)
+
+groups: user A/B test group assignment
+uid: the user ID
+group: the user’s test group
+join_dt: the date the user joined the test (visited the page)
+device: the device the user visited the page on (I = iOS, A = android)
+
+activity: user purchase activity, containing 1 row per day that a user made a purchase
+uid: the user ID
+dt: date of purchase activity
+device: the device type the user purchased on (I = iOS, A = android)
+spent: the purchase amount in USD
 
  
