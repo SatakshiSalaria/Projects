@@ -24,21 +24,21 @@ The setup of the A/B test is as follows:
 
 You can find a description of each table and its columns below.
 
-users: user demographic information
-id: the user ID
-country: ISO 3166 alpha-3 country code
-gender: the user's gender (M = male, F = female, O = other)
+1.) users: user demographic information
+    id: the user ID
+    country: ISO 3166 alpha-3 country code
+    gender: the user's gender (M = male, F = female, O = other)
 
-groups: user A/B test group assignment
-uid: the user ID
-group: the user’s test group
-join_dt: the date the user joined the test (visited the page)
-device: the device the user visited the page on (I = iOS, A = android)
+2.) groups: user A/B test group assignment
+    uid: the user ID
+    group: the user’s test group
+    join_dt: the date the user joined the test (visited the page)
+    device: the device the user visited the page on (I = iOS, A = android)
 
-activity: user purchase activity, containing 1 row per day that a user made a purchase
-uid: the user ID
-dt: date of purchase activity
-device: the device type the user purchased on (I = iOS, A = android)
-spent: the purchase amount in USD
+3.) activity: user purchase activity, containing 1 row per day that a user made a purchase
+    uid: the user ID
+    dt: date of purchase activity
+    device: the device type the user purchased on (I = iOS, A = android)
+    spent: the purchase amount in USD
 
  
