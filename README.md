@@ -41,4 +41,6 @@ You can find a description of each table and its columns below.
     device: the device type the user purchased on (I = iOS, A = android)
     spent: the purchase amount in USD
 
- 
+File for reference:
+1.) Tableau link :https://public.tableau.com/app/profile/satakshi.salaria7665/viz/GloBoxProject_16888494285040/TestGroupResults#1
+2.) speadsheet link:https://docs.google.com/spreadsheets/d/1Dpf4TRPjq_pHtsODAoondvYVN0ExF334Ntqrj0G3z-c/edit#gid=1235041860
